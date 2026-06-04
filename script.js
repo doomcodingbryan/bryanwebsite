@@ -1,3 +1,14 @@
+// Back-to-top button
+const backToTop = document.getElementById('backToTop');
+if (backToTop) {
+    window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('visible', window.scrollY > 400);
+    });
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
 // Wait for fonts to load before positioning the indicator
 // This prevents the glitch where the indicator is positioned based on
 // fallback font metrics, then jumps when the custom font loads.
@@ -49,7 +60,7 @@ document.fonts.ready.then(() => {
             // Navigate after slide completes
             setTimeout(() => {
                 window.location.href = href;
-            }, 380);
+            }, 250);
         });
     });
 });
