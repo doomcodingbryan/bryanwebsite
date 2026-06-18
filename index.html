@@ -19,7 +19,10 @@
     <link rel="stylesheet" href="fonts/Comico/WEB/css/comico.css">
     <link rel="stylesheet" href="fonts/Zodiak/WEB/css/zodiak.css">
     <link rel="stylesheet" href="fonts/Rowan/WEB/css/rowan.css">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="style.css?v=4">
 
     <!-- Three.js as ES module via importmap -->
     <script type="importmap">
@@ -39,12 +42,21 @@
         <div class="cursor-ring"></div>
     </div>
 
-    <!-- Loader -->
+    <!-- Loader (boot screen) -->
     <div class="loader" id="loader">
+        <div class="loader-scanlines" aria-hidden="true"></div>
         <div class="loader-inner">
-            <span class="loader-name">[Bryan] Chae</span>
-            <div class="loader-bar"><span id="loaderProgress"></span></div>
-            <span class="loader-pct" id="loaderPct">0%</span>
+            <div class="loader-top">
+                <span class="loader-tag"><i class="blink-dot"></i> PLAYER_01</span>
+                <span class="loader-sys">PORTFOLIO_OS v2.0</span>
+            </div>
+            <h1 class="loader-title"><span class="b">[</span> BRYAN CHAE <span class="b">]</span></h1>
+            <div class="loader-log" id="loaderLog" aria-hidden="true"></div>
+            <div class="loader-barwrap">
+                <div class="loader-blocks" id="loaderBlocks" aria-hidden="true"></div>
+                <span class="loader-pct" id="loaderPct">00%</span>
+            </div>
+            <div class="loader-hint" id="loaderHint">INITIALIZING<span class="caret">_</span></div>
         </div>
     </div>
 
@@ -311,8 +323,8 @@
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 
     <!-- 3D scene (module) + interactions -->
-    <script type="module" src="three-scene.js?v=3"></script>
-    <script src="script.js?v=3"></script>
+    <script type="module" src="three-scene.js?v=4"></script>
+    <script src="script.js?v=4"></script>
 </body>
 
 </html>

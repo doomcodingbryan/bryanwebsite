@@ -169,61 +169,197 @@ main,
 }
 
 /* ---------------------------------------------------------
-   Loader
+   Loader — video-game boot screen
    --------------------------------------------------------- */
 .loader {
     position: fixed;
     inset: 0;
     z-index: 10000;
-    background: var(--bg);
+    background: #100b07;
+    color: #f3e8d6;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
+    overflow: hidden;
+    will-change: transform;
+    transition: transform 0.85s var(--ease);
 }
 
+/* curtain-wipe to reveal the site underneath */
 .loader.done {
-    opacity: 0;
-    visibility: hidden;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+/* CRT vignette */
+.loader::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: inset 0 0 220px rgba(0, 0, 0, 0.9);
+}
+
+.loader-scanlines {
+    position: absolute;
+    inset: -50% 0;
+    z-index: 2;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px);
+    opacity: 0.45;
+    animation: scan 6s linear infinite;
+}
+
+@keyframes scan {
+    to { transform: translateY(120px); }
 }
 
 .loader-inner {
+    position: relative;
+    z-index: 3;
+    width: min(620px, 88vw);
+}
+
+.loader-top {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 1.1rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #948876;
+    margin-bottom: 1.6rem;
 }
 
-.loader-name {
-    font-family: var(--serif);
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+.loader-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
 }
 
-.loader-name {
-    color: var(--ink);
-}
-
-.loader-bar {
-    width: 220px;
-    height: 2px;
-    background: var(--line);
-    overflow: hidden;
-}
-
-.loader-bar span {
-    display: block;
-    height: 100%;
-    width: 0%;
+.blink-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     background: var(--accent);
-    transition: width 0.2s ease;
+    box-shadow: 0 0 8px var(--accent);
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.loader-title {
+    font-family: 'Press Start 2P', ui-monospace, monospace;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 3vw, 1.7rem);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: #fbf3e6;
+    text-shadow: 0 0 18px rgba(217, 119, 6, 0.35);
+    margin-bottom: 1.8rem;
+}
+
+.loader-title .b {
+    color: var(--accent);
+}
+
+.loader-log {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.8rem;
+    line-height: 1.85;
+    color: #b6aa97;
+    min-height: 11.1em;
+    margin-bottom: 1.4rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.loader-log .line {
+    opacity: 0;
+    transform: translateX(-6px);
+    animation: logIn 0.28s var(--ease) forwards;
+}
+
+@keyframes logIn {
+    to { opacity: 1; transform: none; }
+}
+
+.loader-log .ok { color: var(--accent); }
+
+.loader-log .ready {
+    color: #fbf3e6;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(217, 119, 6, 0.6);
+}
+
+.loader-barwrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+}
+
+.loader-blocks {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+}
+
+.loader-blocks .blk {
+    flex: 1;
+    height: 16px;
+    border: 1px solid rgba(217, 119, 6, 0.30);
+    transition: background 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.loader-blocks .blk.on {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.7);
 }
 
 .loader-pct {
-    font-size: 0.8rem;
-    color: var(--ink-faint);
-    letter-spacing: 0.15em;
+    font-family: 'Press Start 2P', ui-monospace, monospace;
+    font-size: 0.9rem;
+    color: var(--accent);
+    min-width: 3.4em;
+    text-align: right;
+}
+
+.loader-hint {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #948876;
+}
+
+.loader-hint.ready {
+    color: var(--accent);
+    animation: blink 0.8s steps(1) infinite;
+}
+
+.caret {
+    color: var(--accent);
+    animation: blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .loader-scanlines,
+    .blink-dot,
+    .caret,
+    .loader-hint.ready { animation: none; }
+
+    .loader-log .line { opacity: 1; transform: none; animation: none; }
+
+    .loader { transition: opacity 0.3s ease; }
+
+    .loader.done { transform: none; opacity: 0; visibility: hidden; }
 }
 
 /* ---------------------------------------------------------

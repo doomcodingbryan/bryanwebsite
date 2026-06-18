@@ -51,8 +51,51 @@
        Loader
        --------------------------------------------------------- */
     const loader = document.getElementById('loader');
-    const loaderBar = document.getElementById('loaderProgress');
     const loaderPct = document.getElementById('loaderPct');
+    const loaderLog = document.getElementById('loaderLog');
+    const loaderHint = document.getElementById('loaderHint');
+    const loaderBlocks = document.getElementById('loaderBlocks');
+
+    // build the segmented "health bar"
+    const BLOCK_COUNT = 16;
+    if (loaderBlocks) {
+        for (let i = 0; i < BLOCK_COUNT; i++) {
+            const b = document.createElement('span');
+            b.className = 'blk';
+            loaderBlocks.appendChild(b);
+        }
+    }
+    const blocks = loaderBlocks ? Array.from(loaderBlocks.children) : [];
+
+    // boot log lines, revealed as the bar passes each threshold
+    const BOOT = [
+        { at: 4, html: '&gt; boot portfolio_os' },
+        { at: 20, html: '&gt; mounting webgl renderer ......... <span class="ok">[ OK ]</span>' },
+        { at: 38, html: '&gt; compiling blob shaders .......... <span class="ok">[ OK ]</span>' },
+        { at: 56, html: '&gt; loading experience modules ...... <span class="ok">[ OK ]</span>' },
+        { at: 74, html: '&gt; indexing projects ............... <span class="ok">[ OK ]</span>' },
+        { at: 90, html: '&gt; calibrating cursor .............. <span class="ok">[ OK ]</span>' },
+    ];
+    let bootShown = 0;
+
+    function pushLog(html, cls) {
+        if (!loaderLog) return;
+        const d = document.createElement('div');
+        d.className = 'line' + (cls ? ' ' + cls : '');
+        d.innerHTML = html;
+        loaderLog.appendChild(d);
+    }
+
+    function updateLoader(p) {
+        const pct = Math.max(0, Math.min(100, Math.floor(p)));
+        if (loaderPct) loaderPct.textContent = String(pct).padStart(2, '0') + '%';
+        const lit = Math.round((pct / 100) * BLOCK_COUNT);
+        for (let i = 0; i < blocks.length; i++) blocks[i].classList.toggle('on', i < lit);
+        while (bootShown < BOOT.length && pct >= BOOT[bootShown].at) {
+            pushLog(BOOT[bootShown].html);
+            bootShown++;
+        }
+    }
 
     function revealHero() {
         if (!hasGSAP) return;
@@ -74,8 +117,10 @@
     }
 
     function finishLoad() {
-        if (loaderBar) loaderBar.style.width = '100%';
-        if (loaderPct) loaderPct.textContent = '100%';
+        updateLoader(100);
+        while (bootShown < BOOT.length) { pushLog(BOOT[bootShown].html); bootShown++; }
+        pushLog('&gt; <span class="ready">READY</span>');
+        if (loaderHint) { loaderHint.textContent = 'PRESS START'; loaderHint.classList.add('ready'); }
         setTimeout(() => {
             if (loader) loader.classList.add('done');
             document.body.classList.add('loaded');
@@ -88,18 +133,17 @@
             } else {
                 revealHero();
             }
-        }, 350);
+        }, reduce ? 200 : 650);
     }
 
     // fake-but-smooth determinate progress that completes on window load
     let prog = 0;
     let loaded = false;
     const progTimer = setInterval(() => {
-        prog = Math.min(prog + Math.random() * 14, loaded ? 100 : 88);
-        if (loaderBar) loaderBar.style.width = prog + '%';
-        if (loaderPct) loaderPct.textContent = Math.floor(prog) + '%';
+        prog = Math.min(prog + Math.random() * 12 + 3, loaded ? 100 : 90);
+        updateLoader(prog);
         if (prog >= 100) clearInterval(progTimer);
-    }, 140);
+    }, 130);
 
     window.addEventListener('load', () => {
         loaded = true;
