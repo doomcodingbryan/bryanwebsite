@@ -116,42 +116,74 @@
         });
     }
 
-    function finishLoad() {
+    // wipe the boot screen and drop the visitor into the site
+    let entered = false;
+    function enterSite() {
+        if (entered) return;
+        entered = true;
+        document.removeEventListener('keydown', onStartKey);
+        if (loader) {
+            loader.removeEventListener('click', enterSite);
+            loader.removeEventListener('touchstart', enterSite);
+            loader.classList.add('done');
+        }
+        document.body.classList.add('loaded');
+        if (reduce) {
+            document.querySelectorAll('.hero-title .word').forEach((w) => (w.style.transform = 'none'));
+            document.querySelectorAll('.reveal-up').forEach((el) => {
+                el.style.opacity = 1;
+                el.style.transform = 'none';
+            });
+        } else {
+            revealHero();
+        }
+    }
+    function onStartKey() { enterSite(); }
+
+    // boot complete -> show READY and wait for the player to press start
+    let ready = false;
+    function reachReady() {
+        if (ready) return;
+        ready = true;
         updateLoader(100);
         while (bootShown < BOOT.length) { pushLog(BOOT[bootShown].html); bootShown++; }
         pushLog('&gt; <span class="ready">READY</span>');
-        if (loaderHint) { loaderHint.textContent = 'PRESS START'; loaderHint.classList.add('ready'); }
-        setTimeout(() => {
-            if (loader) loader.classList.add('done');
-            document.body.classList.add('loaded');
-            if (reduce) {
-                document.querySelectorAll('.hero-title .word').forEach((w) => (w.style.transform = 'none'));
-                document.querySelectorAll('.reveal-up').forEach((el) => {
-                    el.style.opacity = 1;
-                    el.style.transform = 'none';
-                });
-            } else {
-                revealHero();
-            }
-        }, reduce ? 200 : 650);
+        if (loaderHint) {
+            loaderHint.innerHTML = '▶ PRESS START';
+            loaderHint.classList.add('ready');
+            loaderHint.setAttribute('role', 'button');
+            loaderHint.setAttribute('tabindex', '0');
+            loaderHint.setAttribute('aria-label', 'Press start to enter the site');
+            try { loaderHint.focus(); } catch (e) { /* noop */ }
+        }
+        if (loader) loader.classList.add('ready');
+        // any key, click, or tap enters the site
+        document.addEventListener('keydown', onStartKey);
+        if (loader) {
+            loader.addEventListener('click', enterSite);
+            loader.addEventListener('touchstart', enterSite, { passive: true });
+        }
     }
 
-    // fake-but-smooth determinate progress that completes on window load
+    // determinate progress, deliberately paced so the boot feels real
     let prog = 0;
     let loaded = false;
+    const MIN_BOOT_MS = 3200;
+    const bootStart = performance.now();
     const progTimer = setInterval(() => {
-        prog = Math.min(prog + Math.random() * 12 + 3, loaded ? 100 : 90);
+        const elapsed = performance.now() - bootStart;
+        const ceiling = (loaded && elapsed >= MIN_BOOT_MS) ? 100 : 92;
+        prog = Math.min(prog + Math.random() * 4 + 1.5, ceiling);
         updateLoader(prog);
-        if (prog >= 100) clearInterval(progTimer);
-    }, 130);
+        if (prog >= 100) { clearInterval(progTimer); reachReady(); }
+    }, 150);
 
-    window.addEventListener('load', () => {
+    window.addEventListener('load', () => { loaded = true; });
+    // safety: if an asset stalls, still reach the start prompt
+    setTimeout(() => {
         loaded = true;
-        clearInterval(progTimer);
-        finishLoad();
-    });
-    // safety: never trap behind a stalled asset
-    setTimeout(() => { if (!loaded) { loaded = true; clearInterval(progTimer); finishLoad(); } }, 4500);
+        if (!ready) { clearInterval(progTimer); reachReady(); }
+    }, 9000);
 
     /* ---------------------------------------------------------
        Scroll-reveal for content (not the hero, handled above)
