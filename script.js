@@ -363,6 +363,64 @@
     }
 
     /* ---------------------------------------------------------
+       Cursor-reactive skill tags (spring away from the cursor)
+       --------------------------------------------------------- */
+    if (!isTouch && !reduce) {
+        const tagWrap = document.querySelector('.skill-tags');
+        if (tagWrap) {
+            const tags = Array.from(tagWrap.querySelectorAll('span'));
+            const st = tags.map(() => ({ x: 0, y: 0 }));
+            const RADIUS = 150;
+            const MAX_PUSH = 62;
+            const mouse = { x: -9999, y: -9999 };
+            let raf = null;
+
+            window.addEventListener('pointermove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            }, { passive: true });
+
+            function loop() {
+                for (let i = 0; i < tags.length; i++) {
+                    const r = tags[i].getBoundingClientRect();
+                    // rest center (back out the offset we applied) keeps the force stable
+                    const cx = r.left + r.width / 2 - st[i].x;
+                    const cy = r.top + r.height / 2 - st[i].y;
+                    const dx = cx - mouse.x;
+                    const dy = cy - mouse.y;
+                    const dist = Math.hypot(dx, dy);
+                    let tx = 0, ty = 0, force = 0;
+                    if (dist < RADIUS && dist > 0.01) {
+                        force = 1 - dist / RADIUS;
+                        const push = force * MAX_PUSH;
+                        tx = (dx / dist) * push;
+                        ty = (dy / dist) * push;
+                    }
+                    st[i].x += (tx - st[i].x) * 0.15;   // spring ease
+                    st[i].y += (ty - st[i].y) * 0.15;
+                    tags[i].style.transform = `translate(${st[i].x.toFixed(2)}px, ${st[i].y.toFixed(2)}px)`;
+                    tags[i].classList.toggle('near', force > 0.12);
+                }
+                raf = requestAnimationFrame(loop);
+            }
+
+            // only run the loop while the skills section is on screen
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach((en) => {
+                    if (en.isIntersecting && !raf) {
+                        raf = requestAnimationFrame(loop);
+                    } else if (!en.isIntersecting && raf) {
+                        cancelAnimationFrame(raf);
+                        raf = null;
+                        st.forEach((s, i) => { s.x = 0; s.y = 0; tags[i].style.transform = ''; tags[i].classList.remove('near'); });
+                    }
+                });
+            }, { threshold: 0 });
+            io.observe(tagWrap);
+        }
+    }
+
+    /* ---------------------------------------------------------
        Back to top
        --------------------------------------------------------- */
     const backToTop = document.getElementById('backToTop');
