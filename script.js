@@ -206,6 +206,60 @@
     }
 
     /* ---------------------------------------------------------
+       Experience "path": route draws on scroll, nodes unlock in
+       sequence, hovering a role lights the route it led to
+       --------------------------------------------------------- */
+    (function experiencePath() {
+        const timeline = document.querySelector('.timeline');
+        if (!timeline) return;
+        const nodes = Array.from(timeline.querySelectorAll('.xp'));
+        if (!nodes.length) return;
+
+        if (reduce || !hasGSAP || !window.ScrollTrigger) {
+            // no-animation fallback: route fully drawn, every node reached
+            timeline.style.setProperty('--path', '100%');
+            nodes.forEach((n) => n.classList.add('is-unlocked'));
+        } else {
+            // draw the orange route as the section scrolls past
+            ScrollTrigger.create({
+                trigger: timeline,
+                start: 'top 78%',
+                end: 'bottom 65%',
+                scrub: true,
+                onUpdate: (self) => {
+                    timeline.style.setProperty('--path', (self.progress * 100).toFixed(1) + '%');
+                },
+            });
+            // unlock each node as the route reaches it
+            nodes.forEach((node) => {
+                ScrollTrigger.create({
+                    trigger: node,
+                    start: 'top 72%',
+                    onEnter: () => node.classList.add('is-unlocked'),
+                    onLeaveBack: () => node.classList.remove('is-unlocked'),
+                });
+            });
+        }
+
+        // hover: light this role + the more-recent roles above it (the route it
+        // led to), dim the rest. Pointer devices only.
+        if (!isTouch) {
+            nodes.forEach((node) => {
+                node.addEventListener('mouseenter', () => {
+                    timeline.classList.add('is-hovering');
+                    for (let el = node; el; el = el.previousElementSibling) {
+                        if (el.classList && el.classList.contains('xp')) el.classList.add('route-lit');
+                    }
+                });
+                node.addEventListener('mouseleave', () => {
+                    timeline.classList.remove('is-hovering');
+                    nodes.forEach((n) => n.classList.remove('route-lit'));
+                });
+            });
+        }
+    })();
+
+    /* ---------------------------------------------------------
        Scroll progress rail
        --------------------------------------------------------- */
     const rail = document.getElementById('scrollRail');

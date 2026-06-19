@@ -778,16 +778,31 @@ main,
 .timeline {
     list-style: none;
     position: relative;
+    --path: 0%;
 }
 
+/* dim base route */
 .timeline::before {
     content: '';
     position: absolute;
     left: 168px;
     top: 6px;
     bottom: 6px;
-    width: 1px;
+    width: 2px;
     background: var(--line);
+}
+
+/* orange route that draws as you scroll the section */
+.timeline::after {
+    content: '';
+    position: absolute;
+    left: 168px;
+    top: 6px;
+    width: 2px;
+    height: var(--path);
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.5);
+    transition: height 0.08s linear;
 }
 
 .xp {
@@ -797,28 +812,52 @@ main,
     padding: 2.2rem 0;
     border-bottom: 1px solid var(--line);
     position: relative;
+    transition: filter 0.3s var(--ease);
 }
 
 .xp:last-child {
     border-bottom: none;
 }
 
+/* node — "locked" by default, lights up when the route reaches it */
 .xp::before {
     content: '';
     position: absolute;
-    left: 162px;
+    left: 161px;
     top: 2.7rem;
-    width: 13px;
-    height: 13px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     background: var(--bg);
-    border: 2px solid var(--accent);
-    transition: transform 0.3s var(--ease), background 0.3s var(--ease);
+    border: 2px solid rgba(217, 119, 6, 0.35);
+    transition: transform 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    z-index: 1;
+}
+
+.xp.is-unlocked::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px var(--accent-soft), 0 0 14px rgba(217, 119, 6, 0.55);
 }
 
 .xp:hover::before {
+    transform: scale(1.3);
+}
+
+/* hover lights the route this role led to (itself + the more-recent roles
+   above it); the rest dim back */
+.timeline.is-hovering .xp {
+    filter: opacity(0.38);
+}
+
+.timeline.is-hovering .xp.route-lit {
+    filter: none;
+}
+
+.timeline.is-hovering .xp.route-lit::before {
     background: var(--accent);
-    transform: scale(1.25);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 5px var(--accent-soft), 0 0 14px rgba(217, 119, 6, 0.55);
 }
 
 .xp-meta {
@@ -838,6 +877,18 @@ main,
 .xp-loc {
     color: var(--ink-faint);
     font-size: 0.85rem;
+}
+
+.xp-level {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    transition: color 0.3s var(--ease);
+}
+
+.xp.is-unlocked .xp-level {
+    color: var(--accent);
 }
 
 .xp-body {
@@ -1196,13 +1247,21 @@ main,
         max-width: 360px;
     }
 
-    .timeline::before {
+    .timeline::before,
+    .timeline::after {
         display: none;
     }
 
     .xp {
         grid-template-columns: 1fr;
         gap: 0.8rem;
+        border-left: 2px solid var(--line);
+        padding-left: 1.1rem;
+        transition: border-color 0.3s var(--ease);
+    }
+
+    .xp.is-unlocked {
+        border-left-color: var(--accent);
     }
 
     .xp::before {
