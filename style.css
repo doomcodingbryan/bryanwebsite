@@ -505,6 +505,30 @@ a {
     border-radius: 4px;
 }
 
+/* a filled figure slot: the shot is 16:10, so it sets its own height rather
+   than inheriting the placeholder's reserved aspect-ratio */
+.post-shot {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.post-shot--hero {
+    margin-bottom: 44px;
+}
+
+.post-shot-fig {
+    margin: 36px 0;
+}
+
+.post-shot-fig figcaption {
+    margin-top: 10px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--gray);
+}
+
 .post-link {
     color: inherit;
     text-decoration: underline;

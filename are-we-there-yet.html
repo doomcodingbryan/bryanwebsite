@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-    <link rel="stylesheet" href="style.css?v=48">
+    <link rel="stylesheet" href="style.css?v=49">
     <script>
         // the loading screen plays once per visit, not on every navigation
         try {
@@ -57,9 +57,8 @@
         <a class="post-back" href="index.html">Back to the shelf</a>
 
         <article class="post" style="--book-color: #f2e14c">
-            <div class="post-hero placeholder-box">
-                <span class="placeholder-label">Hero image</span>
-            </div>
+            <img class="post-shot post-shot--hero" src="images/awty-search.jpg" width="1920" height="1200"
+                alt="The AreWeThereYet landing screen: a free-text box describing an ideal country, with a TF-IDF / TF-IDF+SVD retrieval toggle.">
 
             <header class="post-head">
                 <h1>Are We There Yet?</h1>
@@ -112,9 +111,11 @@
                     works.</p>
             </section>
 
-            <div class="post-figure placeholder-box">
-                <span class="placeholder-label">Image</span>
-            </div>
+            <figure class="post-shot-fig">
+                <img class="post-shot" src="images/awty-globe.jpg" width="1920" height="1200"
+                    alt="Results plotted on a globe, colour-coded by match score, above ranked country cards scoring safety, climate and cost.">
+                <figcaption>Globe view — every result plotted and ranked</figcaption>
+            </figure>
 
             <section class="post-section">
                 <h2>Role &amp; process</h2>
@@ -126,9 +127,11 @@
                 </ul>
             </section>
 
-            <div class="post-figure placeholder-box">
-                <span class="placeholder-label">Image</span>
-            </div>
+            <figure class="post-shot-fig">
+                <img class="post-shot" src="images/awty-overview.jpg" width="1920" height="1200"
+                    alt="An AI overview of the top matches beside a chart of the latent SVD dimensions that pushed Portugal up or down the ranking.">
+                <figcaption>AI overview — the latent dimensions behind the ranking</figcaption>
+            </figure>
 
             <section class="post-section">
                 <h2>Outcome</h2>
