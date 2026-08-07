@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chae B. Folio · Weather Better</title>
+    <meta name="description" content="Weather Better by Bryan Chae.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+    <link rel="stylesheet" href="style.css?v=43">
+    <script>
+        // the loading screen plays once per visit, not on every navigation
+        try {
+            if (sessionStorage.seenLoader) document.documentElement.classList.add('no-loader');
+            sessionStorage.seenLoader = 1;
+        } catch (e) { /* storage blocked: just show it */ }
+    </script>
+</head>
+
+<body>
+    <div class="loader" id="loader" aria-hidden="true">
+        <div class="load-box">
+            <div class="load-barwrap">
+                <div class="load-bubble"></div>
+                <div class="load-track">
+                    <div class="load-fill" id="loadFill"></div>
+                </div>
+            </div>
+            <div class="load-title">Loading</div>
+            <div class="load-sub">Please Wait...</div>
+        </div>
+    </div>
+    <div class="aside">
+        <div>
+            <a href="index.html" class="brand">
+                <h1>Chae B. Folio</h1>
+            </a>
+            <div class="aside-sub">
+                <h2>Selected Product Works, vol. 1</h2>
+                <p>for 2022 – 2026</p>
+            </div>
+        </div>
+        <nav class="menu" aria-label="Primary">
+            <a href="index.html" class="pill pill-folder active">Works</a>
+            <a href="about.html" class="pill">About</a>
+            <a href="connect.html" class="pill">Contact</a>
+        </nav>
+    </div>
+
+    <main class="content">
+        <a class="post-back" href="index.html">Back to the shelf</a>
+
+        <article class="post" style="--book-color: #1f3a93">
+            <div class="post-hero placeholder-box">
+                <span class="placeholder-label">Hero image</span>
+            </div>
+
+            <header class="post-head">
+                <h1>Weather Better</h1>
+                <div class="metrics"><div class="metric"><span class="metric-num">$400</span><span class="metric-lab">Profit</span></div><div class="metric"><span class="metric-num">3wk</span><span class="metric-lab">Span</span></div><div class="metric"><span class="metric-num">15m</span><span class="metric-lab">Cadence</span></div></div>
+            </header>
+
+            <ul class="facts post-facts">
+                <li>
+                    <div>
+                        <h6>Role</h6>
+                        <p>Solo build</p>
+                    </div>
+                    <div>
+                        <h6>Year</h6>
+                        <p>2025</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h6>Goal</h6>
+                        <p>Price prediction-market contracts against live weather data</p>
+                    </div>
+                    <div>
+                        <h6>Result</h6>
+                        <p>$400 in verified profit within three weeks</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h6>Stack</h6>
+                        <p>Python, NWS forecast API, Kalshi API, cron</p>
+                    </div>
+                    <div>
+                        <h6>Link</h6>
+                        <p><a class="post-link" href="https://doomcodingbryan.github.io/WeatherBetter/#edge" target="_blank" rel="noopener">View project</a></p>
+                    </div>
+                </li>
+            </ul>
+
+            <section class="post-section">
+                <h4>Description</h4>
+                <p>Prices prediction-market contracts against live weather data using the NWS forecast API. A 15-minute cron job fetches, paginates, and validates Kalshi market snapshots, then deploys trading signals automatically.</p>
+            </section>
+
+            <section class="post-section">
+                <h2>Overview</h2>
+                <p class="is-placeholder">Placeholder. Describe what the project is, who it is for, and
+                    what problem it solves. Two or three paragraphs works well here.</p>
+                <p class="is-placeholder">Placeholder. Add a second paragraph with more detail on how it
+                    works.</p>
+            </section>
+
+            <div class="post-figure placeholder-box">
+                <span class="placeholder-label">Image</span>
+            </div>
+
+            <section class="post-section">
+                <h2>Role &amp; process</h2>
+                <p class="is-placeholder">Placeholder. Explain what you personally owned on this project.</p>
+                <ul class="is-placeholder">
+                    <li>Placeholder responsibility</li>
+                    <li>Placeholder responsibility</li>
+                    <li>Placeholder responsibility</li>
+                </ul>
+            </section>
+
+            <div class="post-figure placeholder-box">
+                <span class="placeholder-label">Image</span>
+            </div>
+
+            <section class="post-section">
+                <h2>Outcome</h2>
+                <p class="is-placeholder">Placeholder. What shipped, what changed, and what you learned.
+                    Numbers land well here.</p>
+            </section>
+        </article>
+    </main>
+    <script>
+        // reveal once the page is loaded AND the bar has finished filling
+        const fillMs = parseFloat(
+            getComputedStyle(loader).getPropertyValue('--fill-dur')) * 1000;
+        Promise.all([
+            document.readyState === 'complete'
+                ? Promise.resolve()
+                : new Promise(r => addEventListener('load', r)),
+            new Promise(r => setTimeout(r, fillMs))
+        ]).then(() => loader.classList.add('done'));
+    </script>
+</body>
+
+</html>

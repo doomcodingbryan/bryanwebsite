@@ -4,132 +4,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Bryan Chae</title>
-    <link rel="stylesheet" href="fonts/Comico/WEB/css/comico.css">
-    <link rel="stylesheet" href="fonts/Zodiak/WEB/css/zodiak.css">
-    <link rel="stylesheet" href="fonts/Rowan/WEB/css/rowan.css">
-    <link rel="stylesheet" href="style.css">
+    <title>Chae B. Folio · About</title>
+    <meta name="description" content="About Bryan Chae. Cornell Information Science '27, product-minded builder.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+    <link rel="stylesheet" href="style.css?v=43">
+    <script>
+        // the loading screen plays once per visit, not on every navigation
+        try {
+            if (sessionStorage.seenLoader) document.documentElement.classList.add('no-loader');
+            sessionStorage.seenLoader = 1;
+        } catch (e) { /* storage blocked: just show it */ }
+    </script>
 </head>
 
 <body>
-    <header class="site-header">
-        <h1 class="name"><span style="color: #D97706;">Bryan</span> Chae</h1>
-        <nav class="nav-tabs">
-            <div class="nav-tabs-box">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link active">About</a>
-                <a href="work.html" class="nav-link">Work</a>
-                <a href="connect.html" class="nav-link">Let's connect</a>
+    <div class="loader" id="loader" aria-hidden="true">
+        <div class="load-box">
+            <div class="load-barwrap">
+                <div class="load-bubble"></div>
+                <div class="load-track">
+                    <div class="load-fill" id="loadFill"></div>
+                </div>
             </div>
-        </nav>
-        <a href="links/Bryan_Chae_Resume.pdf" target="_blank" class="resume-btn">Resume</a>
-    </header>
-
-    <h2 class="page-title">About <span style="color: #D97706;">[ me ]</span> </h2>
-
-    <p class="about-intro">Hi, I'm Bryan!</p>
-
-    <div class="about-layout">
-        <div class="about-content">
-            <section id="2026">
-                <h3>2026</h3>
-                <p>Started working at an early stage startup and enjoyed the experience of building something. Want to
-                    continue building more.</p>
-            </section>
-            <section id="2025">
-                <h3>2025</h3>
-                <p>Worked at various investment firms across VC and PE</p>
-            </section>
-            <section id="2024">
-                <h3>2024</h3>
-                <p>Loved my experience in LA and knew I wanted to do with something in Tech. Transferred to Cornell.</p>
-            </section>
-            <section id="2023">
-                <h3>2023</h3>
-                <p>Graduated from Shaker High School and moved across the country to Los Angeles where I started my
-                    freshman year at USC</p>
-            </section>
-            <section id="2022">
-                <h3>2022</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2021">
-                <h3>2021</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2020">
-                <h3>2020</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2019">
-                <h3>2019</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2018">
-                <h3>2018</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2017">
-                <h3>2017</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2016">
-                <h3>2016</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2015">
-                <h3>2015</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2014">
-                <h3>2014</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2013">
-                <h3>2013</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2012">
-                <h3>2012</h3>
-                <p>Content coming soon...</p>
-            </section>
-            <section id="2011">
-                <h3>2011</h3>
-                <p>Moved to South Bend, Indiana and fell in love with Notre Dame Football...</p>
-            </section>
-            <section id="2010">
-                <h3>2010</h3>
-                <p>I remember watching the World Cup and falling in love with soccer and sports overall...</p>
-            </section>
-            <section id="2009">
-                <h3>2009</h3>
-                <p>Bitcoin was first launched...</p>
-            </section>
-            <section id="2008">
-                <h3>2008</h3>
-                <p>2008 financial crisis...</p>
-            </section>
-            <section id="2007">
-                <h3>2007</h3>
-                <p>Hadn't formed a thought yet...</p>
-            </section>
-            <section id="2006">
-                <h3>2006</h3>
-                <p>Moved to Seoul, South Korea...</p>
-            </section>
-            <section id="2005">
-                <h3>2005</h3>
-                <p>Born on May 25th in Ithaca, NY...</p>
-            </section>
+            <div class="load-title">Loading</div>
+            <div class="load-sub">Please Wait...</div>
         </div>
     </div>
-    <footer class="site-footer">
-        <p>&copy; bryan chae 2026</p>
-    </footer>
+    <div class="aside">
+        <div>
+            <a href="index.html" class="brand">
+                <h1>Chae B. Folio</h1>
+            </a>
+            <div class="aside-sub">
+                <h2>Selected Product Works, vol. 1</h2>
+                <p>for 2022 – 2026</p>
+            </div>
+        </div>
+        <nav class="menu" aria-label="Primary">
+            <a href="index.html" class="pill pill-folder">Works</a>
+            <a href="about.html" class="pill active">About</a>
+            <a href="connect.html" class="pill">Contact</a>
+        </nav>
+    </div>
 
-    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+    <main class="content">
+        <section>
+            <h2 class="section-label">About me</h2>
+            <div class="par">
+                <p>Hello there! My name is Bryan Chae.</p>
+                <p>I'm a product-minded builder studying Information Science at Cornell. My work spans product
+                    management, venture, and software, built at early-stage startups, investment firms, and
+                    Cornell's research labs.</p>
+                <p>I care about finding the intersection between technology and real user problems, then turning that
+                    into something people rely on.</p>
+            </div>
+            <span class="pic"><img src="images/headshot.jpg" alt="Bryan Chae"></span>
+            <ul class="facts">
+                <li>
+                    <div>
+                        <h6>Position</h6>
+                        <p>Builder</p>
+                    </div>
+                    <div>
+                        <h6>Currently</h6>
+                        <p>Free</p>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <h6>School</h6>
+                        <p>Cornell University '27</p>
+                    </div>
+                    <div>
+                        <h6>Email</h6>
+                        <p>byc27@cornell.edu</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
 
-    <script src="script.js"></script>
+        <section>
+            <h2 class="section-label">Where I've built</h2>
+            <ul class="xp-rows">
+                <li>
+                    <div class="role">HR Tech Intern, AWISCO</div>
+                    <div class="meta">Jun 2026 – Aug 2026 · Queens, NY</div>
+                </li>
+                <li>
+                    <div class="role">Product Manager Intern, SubmissionSensAI</div>
+                    <div class="meta">Dec 2025 – May 2026 · Ithaca, NY</div>
+                </li>
+                <li>
+                    <div class="role">Business Intern, LX Semicon</div>
+                    <div class="meta">Jun 2025 – Aug 2025 · Santa Clara, CA</div>
+                </li>
+                <li>
+                    <div class="role">Venture Scout, GoAhead &amp; LvlUp Ventures</div>
+                    <div class="meta">May 2025 – Nov 2025 · Menlo Park, CA</div>
+                </li>
+                <li>
+                    <div class="role">Private Equity Intern, Willowbrook Capital</div>
+                    <div class="meta">Feb 2025 – Jun 2025 · Los Angeles, CA</div>
+                </li>
+                <li>
+                    <div class="role">Coding Research Intern, Messer Lab · Cornell</div>
+                    <div class="meta">Jun 2022 – Jan 2024 · Ithaca, NY</div>
+                </li>
+            </ul>
+        </section>
+    </main>
+    <script>
+        // reveal once the page is loaded AND the bar has finished filling,
+        // so the progress never vanishes mid-sweep. Duration is read from
+        // --fill-dur (seconds) so the CSS stays the single source of truth.
+        const fillMs = parseFloat(
+            getComputedStyle(loader).getPropertyValue('--fill-dur')) * 1000;
+        Promise.all([
+            document.readyState === 'complete'
+                ? Promise.resolve()
+                : new Promise(r => addEventListener('load', r)),
+            new Promise(r => setTimeout(r, fillMs))
+        ]).then(() => loader.classList.add('done'));
+    </script>
 </body>
 
 </html>

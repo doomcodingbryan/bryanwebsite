@@ -4,44 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Let's Connect - Bryan Chae</title>
-    <link rel="stylesheet" href="fonts/Comico/WEB/css/comico.css">
-    <link rel="stylesheet" href="fonts/Zodiak/WEB/css/zodiak.css">
-    <link rel="stylesheet" href="fonts/Rowan/WEB/css/rowan.css">
-    <link rel="stylesheet" href="style.css">
+    <title>Chae B. Folio · Contact</title>
+    <meta name="description" content="Get in touch with Bryan Chae.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+    <link rel="stylesheet" href="style.css?v=43">
+    <script>
+        // the loading screen plays once per visit, not on every navigation
+        try {
+            if (sessionStorage.seenLoader) document.documentElement.classList.add('no-loader');
+            sessionStorage.seenLoader = 1;
+        } catch (e) { /* storage blocked: just show it */ }
+    </script>
 </head>
 
 <body>
-    <header class="site-header">
-        <h1 class="name"><span style="color: #D97706;">Bryan</span> Chae</h1>
-        <nav class="nav-tabs">
-            <div class="nav-tabs-box">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="work.html" class="nav-link">Work</a>
-                <a href="connect.html" class="nav-link active">Let's connect</a>
+    <div class="loader" id="loader" aria-hidden="true">
+        <div class="load-box">
+            <div class="load-barwrap">
+                <div class="load-bubble"></div>
+                <div class="load-track">
+                    <div class="load-fill" id="loadFill"></div>
+                </div>
             </div>
-        </nav>
-        <a href="links/Bryan_Chae_Resume.pdf" target="_blank" class="resume-btn">Resume</a>
-    </header>
-    <main style="width: 100%; margin: 0; padding: 6rem 2rem 2rem 4rem;">
-        <div class="home-content" style="text-align: left;">
-            <p class="subtitle" style="font-size: 1.2rem; color: #555;">The best way to stay in touch is by following me
-                on <a href="https://www.linkedin.com/in/bryan-chae-850597245/" target="_blank"
-                    style="color: #D97706; text-decoration: none; border-bottom: 2px solid #D97706; font-weight: 700;">Linkedin</a>.
-            </p>
-            <p class="subtitle" style="font-size: 1.2rem; color: #555; margin-top: 1rem;">Or email me if you are old
-                fashioned:</p>
-            <p class="subtitle" style="font-size: 1.2rem; margin-top: -1rem;">
-                <a href="mailto:byc27@cornell.edu" style="color: #D97706; font-weight: 700; text-decoration: none; border-bottom: 2px solid #D97706;">byc27@cornell.edu</a>
-            </p>
+            <div class="load-title">Loading</div>
+            <div class="load-sub">Please Wait...</div>
         </div>
-    </main>
-    <footer class="site-footer">
-        <p>&copy; bryan chae 2026</p>
-    </footer>
+    </div>
+    <div class="aside">
+        <div>
+            <a href="index.html" class="brand">
+                <h1>Chae B. Folio</h1>
+            </a>
+            <div class="aside-sub">
+                <h2>Selected Product Works, vol. 1</h2>
+                <p>for 2022 – 2026</p>
+            </div>
+        </div>
+        <nav class="menu" aria-label="Primary">
+            <a href="index.html" class="pill pill-folder">Works</a>
+            <a href="about.html" class="pill">About</a>
+            <a href="connect.html" class="pill active">Contact</a>
+        </nav>
+    </div>
 
-    <script src="script.js"></script>
+    <main class="content">
+        <section>
+            <h2 class="section-label">Contact</h2>
+            <div class="par">
+                <p>The best way to stay in touch is on LinkedIn, or email me if you're old fashioned.</p>
+            </div>
+            <ul class="contact-links">
+                <li><a class="linkedin" href="https://www.linkedin.com/in/bryan-chae-850597245/" target="_blank"
+                        rel="noopener">LinkedIn <span class="val">/in/bryan-chae ↗</span></a></li>
+                <li><a class="email" href="mailto:byc27@cornell.edu">Email <span
+                            class="val">byc27@cornell.edu</span></a></li>
+                <li><a class="resume" href="links/Bryan_Chae_Resume.pdf" target="_blank" rel="noopener">Resume <span
+                            class="val">Download PDF ↓</span></a></li>
+            </ul>
+        </section>
+    </main>
+    <script>
+        // reveal once the page is loaded AND the bar has finished filling,
+        // so the progress never vanishes mid-sweep. Duration is read from
+        // --fill-dur (seconds) so the CSS stays the single source of truth.
+        const fillMs = parseFloat(
+            getComputedStyle(loader).getPropertyValue('--fill-dur')) * 1000;
+        Promise.all([
+            document.readyState === 'complete'
+                ? Promise.resolve()
+                : new Promise(r => addEventListener('load', r)),
+            new Promise(r => setTimeout(r, fillMs))
+        ]).then(() => loader.classList.add('done'));
+    </script>
 </body>
 
 </html>
