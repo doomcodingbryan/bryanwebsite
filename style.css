@@ -1055,9 +1055,9 @@ a {
     mix-blend-mode: multiply;
 }
 
-/* a photograph wants the whole square, not the inset a logo needs */
+/* a photo keeps the same inset as the logos, but crops to fill that inset
+   square rather than letterboxing inside it */
 .tile--photo {
-    padding: 0;
     overflow: hidden;
 }
 
@@ -1079,8 +1079,15 @@ a {
     transition: opacity 0.25s ease;
 }
 
-.tile:hover + .tile-cap {
+.tile:hover + .tile-cap,
+.tile-link:focus-visible .tile-cap {
     opacity: 1;
+}
+
+.tile-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
 }
 
 .tile:hover {
@@ -1103,6 +1110,193 @@ a {
 @media (max-width: 900px) {
     .tile-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ---------------- Experience map ---------------- */
+.map-stage {
+    position: relative;
+    /* matches the generated viewBox, so marker percentages land exactly */
+    aspect-ratio: 960 / 600;
+    overflow: hidden;
+    background: var(--wash);
+}
+
+/* one knob: the zoom factor is read by both the canvas scale and the
+   counter-scale that keeps the dots their original size */
+.map-canvas {
+    --zoom: 3.4;
+    position: absolute;
+    inset: 0;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.map-base {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.map-states path {
+    fill: #dcd9d5;
+    stroke: var(--wash);
+    stroke-width: 1;
+    transition: fill 0.2s ease;
+}
+
+.map-states path:hover {
+    fill: #c9c5c0;
+}
+
+/* the dot sits on the coordinate and the tag reads outward from it, so the
+   marker is shifted by half a dot rather than centred as a whole */
+.map-pt {
+    --shift: translate(-7px, -50%);
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    transform: var(--shift);
+    transform-origin: 7px center;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* east coast markers would run their tag off the edge */
+.map-pt--left {
+    --shift: translate(calc(-100% + 7px), -50%);
+    flex-direction: row-reverse;
+    transform-origin: calc(100% - 7px) center;
+}
+
+.map-dot {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--accent);
+    font-size: 11px;
+    line-height: 1;
+    color: #fff;
+    transition: background 0.2s ease;
+}
+
+/* roles that share a spot collapse into one dot carrying the count */
+.map-dot[data-n]::after {
+    content: attr(data-n);
+}
+
+.map-dot[data-n] {
+    width: 22px;
+    height: 22px;
+}
+
+.map-tag {
+    white-space: nowrap;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(37, 36, 34, 0.12);
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+}
+
+.map-pt:hover .map-dot,
+.map-pt[aria-pressed="true"] .map-dot {
+    background: var(--ink);
+}
+
+/* the canvas is scaled, so markers would balloon with it */
+.is-zoomed .map-pt {
+    transform: var(--shift) scale(calc(1 / var(--zoom)));
+}
+
+.map-reset {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    font: inherit;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.is-zoomed .map-reset {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.map-hint {
+    margin-top: 14px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--gray);
+}
+
+.map-cards {
+    margin-top: 28px;
+    list-style: none;
+}
+
+.map-card {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    transition: opacity 0.25s ease;
+}
+
+.map-card:first-child {
+    border-top: 1px solid var(--line);
+}
+
+/* everything stays legible until a point is chosen, then the rest recedes */
+.is-zoomed .map-card {
+    opacity: 0.35;
+}
+
+.is-zoomed .map-card.active {
+    opacity: 1;
+}
+
+.map-card .role {
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.map-card .meta {
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--gray);
+    margin-top: 2px;
+}
+
+.map-card .role + .meta + .role {
+    margin-top: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .map-canvas,
+    .map-pt {
+        transition: none;
     }
 }
 
