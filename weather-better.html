@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B.Chae Portfolio · Weather Better</title>
-    <meta name="description" content="Weather Better by Bryan Chae.">
+    <meta name="description"
+        content="Weather Better by Bryan Chae. An NWS forecast edge finder for Kalshi NYC temperature prediction markets.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -13,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-    <link rel="stylesheet" href="style.css?v=49">
+    <link rel="stylesheet" href="style.css?v=53">
     <script>
         // the loading screen plays once per visit, not on every navigation
         try {
@@ -73,23 +74,23 @@
                     </div>
                     <div>
                         <h6>Year</h6>
-                        <p>2025</p>
+                        <p>2025 &ndash; present</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <h6>Goal</h6>
-                        <p>Price prediction-market contracts against live weather data</p>
+                        <p>Surface mispriced contracts on Kalshi's NYC high-temperature markets</p>
                     </div>
                     <div>
                         <h6>Result</h6>
-                        <p>$400 in verified profit within three weeks</p>
+                        <p>Live, and $400 in verified profit within three weeks</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <h6>Stack</h6>
-                        <p>Python, NWS forecast API, Kalshi API, cron</p>
+                        <p>Vanilla JS modules, NWS API, Kalshi API, GitHub Actions, GitHub Pages</p>
                     </div>
                     <div>
                         <h6>Link</h6>
@@ -100,43 +101,72 @@
 
             <section class="post-section">
                 <h4>Description</h4>
-                <p>Prices prediction-market contracts against live weather data using the NWS forecast API. A 15-minute cron job fetches, paginates, and validates Kalshi market snapshots, then deploys trading signals automatically.</p>
+                <p>A static web tool that finds edges in Kalshi's KXHIGHNY temperature contracts. It pulls NWS
+                    forecast highs for Central Park, fits a Normal distribution over expected settlement values, and
+                    flags the contracts where the model's implied probability diverges from the market ask by
+                    enough to be worth acting on.</p>
             </section>
 
             <section class="post-section">
                 <h2>Overview</h2>
-                <p class="is-placeholder">Placeholder. Describe what the project is, who it is for, and
-                    what problem it solves. Two or three paragraphs works well here.</p>
-                <p class="is-placeholder">Placeholder. Add a second paragraph with more detail on how it
-                    works.</p>
+                <p>Kalshi runs daily contracts on the high temperature at NYC Central Park. The National Weather
+                    Service publishes a forecast for exactly that station, for free, with no API key. If the market
+                    is priced differently from what the forecast implies, that difference is the trade. Doing the
+                    comparison by hand across every strike, every day, is the part that does not scale.</p>
+                <p>The tool fits a Normal distribution around the forecast high, adjusted for bias and for
+                    lead-time sigma, and reads off the probability of each strike settling YES. That number goes
+                    next to the live Kalshi ask. When the two disagree by seven percentage points or more, and the
+                    estimated EV clears five cents on the dollar after fees, the row is flagged as a buy. There is
+                    no backend: the whole thing is static files on GitHub Pages, and a GitHub Actions cron writes a
+                    fresh Kalshi snapshot every fifteen minutes because browser CORS blocks calling the exchange
+                    directly.</p>
+                <ul>
+                    <li>Seven-day forecast tab pulling live NWS data, no API key required</li>
+                    <li>Probabilistic model fitting Normal(forecast high plus bias, lead-time sigma) per contract</li>
+                    <li>Edge detection flagging buy YES or NO when model and market ask differ by 7 points or more
+                        and estimated EV clears 5 cents per dollar after fees</li>
+                    <li>Kalshi snapshot refreshed every 15 minutes by a GitHub Actions cron</li>
+                    <li>Known limitations documented in the model rather than papered over: flat sigma at long
+                        leads, unquantified settlement bias, no cross-contract joint distribution</li>
+                </ul>
             </section>
 
             <figure class="post-shot-fig">
                 <img class="post-shot" src="images/wb-edge-finder.jpg" width="1920" height="1200"
                     alt="The edge finder comparing model probability against Kalshi YES/NO asks per strike, with numbered callouts explaining each column and the buy rule.">
-                <figcaption>Edge finder — model probability against the market</figcaption>
+                <figcaption>Edge finder: model probability against the market</figcaption>
             </figure>
 
             <section class="post-section">
                 <h2>Role &amp; process</h2>
-                <p class="is-placeholder">Placeholder. Explain what you personally owned on this project.</p>
-                <ul class="is-placeholder">
-                    <li>Placeholder responsibility</li>
-                    <li>Placeholder responsibility</li>
-                    <li>Placeholder responsibility</li>
+                <p>Solo. The model, the frontend, the data pipeline, and the automation.</p>
+                <ul>
+                    <li>Designed the probabilistic model and the buy rule, including the edge and EV thresholds
+                        that decide what counts as a signal</li>
+                    <li>Built the frontend as vanilla ES modules with no build step, so the whole tool is static
+                        files served from GitHub Pages</li>
+                    <li>Set up the GitHub Actions workflow that refreshes the Kalshi snapshot on a cron, working
+                        around the CORS wall rather than standing up a backend for it</li>
+                    <li>Documented the model's failure modes on the page instead of hiding them. The tool is for my
+                        own money, and overconfidence is the actual risk</li>
                 </ul>
             </section>
 
             <figure class="post-shot-fig">
                 <img class="post-shot" src="images/wb-calibration.jpg" width="1920" height="1200"
                     alt="A calibration curve of win rate against implied probability with Brier scores, beside fitted sigma and bias per lead day.">
-                <figcaption>Calibration — fitted &sigma; and bias replacing the priors</figcaption>
+                <figcaption>Calibration: fitted &sigma; and bias replacing the priors</figcaption>
             </figure>
 
             <section class="post-section">
                 <h2>Outcome</h2>
-                <p class="is-placeholder">Placeholder. What shipped, what changed, and what you learned.
-                    Numbers land well here.</p>
+                <p>Live, refreshing every fifteen minutes, and $400 up in verified profit over its first three
+                    weeks. It was built against three goals:</p>
+                <ul>
+                    <li>Identify mispriced temperature contracts faster than doing it by hand</li>
+                    <li>Keep the stack as simple as it can be: no backend, no build step</li>
+                    <li>Make the model's assumptions and limitations legible</li>
+                </ul>
             </section>
         </article>
     </main>

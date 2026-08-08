@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B.Chae Portfolio · Are We There Yet?</title>
-    <meta name="description" content="Are We There Yet? by Bryan Chae.">
+    <meta name="description"
+        content="Are We There Yet? by Bryan Chae. An NLP-powered country recommendation engine for finding your next home base.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -13,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-    <link rel="stylesheet" href="style.css?v=49">
+    <link rel="stylesheet" href="style.css?v=53">
     <script>
         // the loading screen plays once per visit, not on every navigation
         try {
@@ -62,34 +63,34 @@
 
             <header class="post-head">
                 <h1>Are We There Yet?</h1>
-                <div class="metrics"><div class="metric is-placeholder"><span class="metric-num">—</span><span class="metric-lab">TBD</span></div><div class="metric is-placeholder"><span class="metric-num">—</span><span class="metric-lab">TBD</span></div><div class="metric is-placeholder"><span class="metric-num">—</span><span class="metric-lab">TBD</span></div></div>
+                <div class="metrics"><div class="metric"><span class="metric-num">5</span><span class="metric-lab">Team</span></div><div class="metric"><span class="metric-num">TF-IDF</span><span class="metric-lab">Ranking</span></div><div class="metric"><span class="metric-num">4300</span><span class="metric-lab">Showcase</span></div></div>
             </header>
 
             <ul class="facts post-facts">
                 <li>
                     <div>
                         <h6>Role</h6>
-                        <p>Team of five</p>
+                        <p>Team of five, backend search</p>
                     </div>
                     <div>
                         <h6>Year</h6>
-                        <p>2025</p>
+                        <p>Spring 2026</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <h6>Goal</h6>
-                        <p>Match people to countries from profile data and free-text queries</p>
+                        <p>Find countries that match your lifestyle and vibe, not just your visa requirements</p>
                     </div>
                     <div>
-                        <h6>Result</h6>
-                        <p>Shipped as a Cornell CS 4300 showcase project</p>
+                        <h6>Context</h6>
+                        <p>Cornell INFO 4300 class project</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <h6>Stack</h6>
-                        <p>Python, TF-IDF, cosine similarity, Reddit scraping</p>
+                        <p>Flask, React, TypeScript, SQLite, scikit-learn, OpenAI API, Vite</p>
                     </div>
                     <div>
                         <h6>Link</h6>
@@ -100,43 +101,68 @@
 
             <section class="post-section">
                 <h4>Description</h4>
-                <p>Matches users to countries from structured profile data and free-text "vibe" queries using TF-IDF and cosine similarity. Country profiles were built by scraping Reddit immigration communities to capture qualitative dimensions.</p>
+                <p>An NLP-powered country recommendation engine. It takes a plain-language query, something like
+                    "warm, cheap, good food, slow pace", and returns ranked country matches using TF-IDF cosine
+                    similarity over profiles built from Reddit posts and structured metadata.</p>
             </section>
 
             <section class="post-section">
                 <h2>Overview</h2>
-                <p class="is-placeholder">Placeholder. Describe what the project is, who it is for, and
-                    what problem it solves. Two or three paragraphs works well here.</p>
-                <p class="is-placeholder">Placeholder. Add a second paragraph with more detail on how it
-                    works.</p>
+                <p>Most tools for picking a country to move to answer a question nobody asked first. They start
+                    with visa tiers and tax brackets, when the real question is closer to "where would I actually
+                    like living?" Are We There Yet takes that question in the words people use to ask it and turns
+                    it into a ranked list.</p>
+                <p>Each country gets a profile assembled from expat and travel posts on Reddit alongside structured
+                    metadata, vectorized with TF-IDF and reduced with SVD. A query is scored against those profiles
+                    by cosine similarity. An optional LLM layer rewrites the query first, expanding vague or
+                    colloquial phrasing into terms the index can actually match, and the result view shows which
+                    latent dimensions pushed each country up or down so the ranking can be argued with.</p>
+                <ul>
+                    <li>TF-IDF vectorizer with SVD dimensionality reduction over country profiles built from Reddit
+                        expat and travel posts</li>
+                    <li>LLM query rewriting through the OpenAI API, expanding vague input into richer search terms</li>
+                    <li>Synonym expansion and intent anchoring for common lifestyle terms</li>
+                    <li>Interactive 3D globe visualization of the results</li>
+                    <li>A latent dimension chart showing which semantic dimensions drove each ranking</li>
+                    <li>Flask REST API over SQLite, served alongside a Vite and React frontend</li>
+                </ul>
             </section>
 
             <figure class="post-shot-fig">
                 <img class="post-shot" src="images/awty-globe.jpg" width="1920" height="1200"
                     alt="Results plotted on a globe, colour-coded by match score, above ranked country cards scoring safety, climate and cost.">
-                <figcaption>Globe view — every result plotted and ranked</figcaption>
+                <figcaption>Globe view: every result plotted and ranked</figcaption>
             </figure>
 
             <section class="post-section">
                 <h2>Role &amp; process</h2>
-                <p class="is-placeholder">Placeholder. Explain what you personally owned on this project.</p>
-                <ul class="is-placeholder">
-                    <li>Placeholder responsibility</li>
-                    <li>Placeholder responsibility</li>
-                    <li>Placeholder responsibility</li>
+                <p>One of five. I owned the backend search engine and the API, and also worked on the frontend
+                    result display.</p>
+                <ul>
+                    <li>Built the country profiles: scraping and assembling Reddit expat and travel posts into one
+                        document per country, then merging in structured metadata</li>
+                    <li>Built the TF-IDF index and the SVD analysis behind the ranking</li>
+                    <li>Wrote the query expansion pipeline, including synonym expansion, intent anchoring, and the
+                        OpenAI rewriting layer</li>
+                    <li>Built the Flask REST API over SQLite that the frontend queries</li>
+                    <li>Contributed the result display and the latent dimension visualization on the frontend</li>
                 </ul>
             </section>
 
             <figure class="post-shot-fig">
                 <img class="post-shot" src="images/awty-overview.jpg" width="1920" height="1200"
                     alt="An AI overview of the top matches beside a chart of the latent SVD dimensions that pushed Portugal up or down the ranking.">
-                <figcaption>AI overview — the latent dimensions behind the ranking</figcaption>
+                <figcaption>AI overview: the latent dimensions behind the ranking</figcaption>
             </figure>
 
             <section class="post-section">
-                <h2>Outcome</h2>
-                <p class="is-placeholder">Placeholder. What shipped, what changed, and what you learned.
-                    Numbers land well here.</p>
+                <h2>Goals</h2>
+                <p>It shipped on the Cornell INFO 4300 showcase. What it was aiming at:</p>
+                <ul>
+                    <li>Return meaningful country matches from free-text lifestyle queries</li>
+                    <li>Make the ranking explainable rather than a black box</li>
+                    <li>Beat a naive keyword search baseline on retrieval quality</li>
+                </ul>
             </section>
         </article>
     </main>

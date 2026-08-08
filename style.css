@@ -318,7 +318,9 @@ a {
     margin-bottom: 24px;
 }
 
-.content section + section .section-label {
+/* the gap belongs to the section, not to its heading: a section without a
+   label still needs it */
+.content section + section {
     margin-top: 96px;
 }
 
@@ -1015,29 +1017,68 @@ a {
     }
 }
 
-.xp-rows {
+/* ---------------- Tile grid ---------------- */
+.tile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     list-style: none;
 }
 
-.xp-rows li {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--line);
+.tile {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    padding: 18%;
+    background: var(--wash);
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.xp-rows li:first-child {
-    border-top: 1px solid var(--line);
+.tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-.xp-rows .role {
-    font-size: 20px;
-    line-height: 28px;
-}
-
-.xp-rows .meta {
-    font-size: 15px;
-    line-height: 22px;
+/* the label sits under the tile rather than over the artwork, and only fades
+   in, so revealing it never reflows the grid */
+.tile-cap {
+    display: block;
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     color: var(--gray);
-    margin-top: 2px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.tile:hover + .tile-cap {
+    opacity: 1;
+}
+
+.tile:hover {
+    background: color-mix(in srgb, var(--ink) 7%, var(--wash));
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(37, 36, 34, 0.09);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tile {
+        transition: background 0.25s ease;
+    }
+
+    .tile:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .tile-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ---------------- Contact links ---------------- */

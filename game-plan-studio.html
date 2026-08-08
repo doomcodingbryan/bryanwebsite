@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B.Chae Portfolio · Game Plan Studio</title>
-    <meta name="description" content="Game Plan Studio by Bryan Chae.">
+    <meta name="description"
+        content="Game Plan Studio by Bryan Chae. An interactive decision tree editor for BJJ game planning.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -13,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-    <link rel="stylesheet" href="style.css?v=49">
+    <link rel="stylesheet" href="style.css?v=53">
     <script>
         // the loading screen plays once per visit, not on every navigation
         try {
@@ -62,34 +63,35 @@
 
             <header class="post-head">
                 <h1>Game Plan Studio</h1>
-                <div class="metrics"><div class="metric is-placeholder"><span class="metric-num">—</span><span class="metric-lab">TBD</span></div><div class="metric is-placeholder"><span class="metric-num">—</span><span class="metric-lab">TBD</span></div><div class="metric is-placeholder"><span class="metric-num">—</span><span class="metric-lab">TBD</span></div></div>
+                <div class="metrics"><div class="metric"><span class="metric-num">Node</span><span class="metric-lab">Editor</span></div><div class="metric"><span class="metric-num">Solo</span><span class="metric-lab">Build</span></div><div class="metric"><span class="metric-num">Early</span><span class="metric-lab">Access</span></div></div>
             </header>
 
             <ul class="facts post-facts">
                 <li>
                     <div>
                         <h6>Role</h6>
-                        <p><span class="is-placeholder">To be added</span></p>
+                        <p>Solo design and build</p>
                     </div>
                     <div>
                         <h6>Year</h6>
-                        <p><span class="is-placeholder">To be added</span></p>
+                        <p>2025 &ndash; present</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <h6>Goal</h6>
-                        <p><span class="is-placeholder">To be added</span></p>
+                        <p>Give BJJ practitioners a living record of what actually works for them, not a static
+                            reference</p>
                     </div>
                     <div>
-                        <h6>Result</h6>
-                        <p><span class="is-placeholder">To be added</span></p>
+                        <h6>Status</h6>
+                        <p>In development</p>
                     </div>
                 </li>
                 <li>
                     <div>
                         <h6>Stack</h6>
-                        <p><span class="is-placeholder">To be added</span></p>
+                        <p>Vite, React 19, TypeScript, React Flow, Zustand, Tailwind v4</p>
                     </div>
                     <div>
                         <h6>Link</h6>
@@ -100,43 +102,70 @@
 
             <section class="post-section">
                 <h4>Description</h4>
-                <p><span class="is-placeholder">Placeholder. Add a one or two sentence summary of what Game Plan Studio is.</span></p>
+                <p>An interactive decision tree editor for Brazilian Jiu-Jitsu game planning. Every node is a
+                    position and every edge is a branch: the opponent's reaction and your answer to it.</p>
             </section>
 
             <section class="post-section">
                 <h2>Overview</h2>
-                <p class="is-placeholder">Placeholder. Describe what the project is, who it is for, and
-                    what problem it solves. Two or three paragraphs works well here.</p>
-                <p class="is-placeholder">Placeholder. Add a second paragraph with more detail on how it
-                    works.</p>
+                <p>A game plan is a decision tree, but most people keep theirs in a notes app or nowhere at all.
+                    Game Plan Studio makes it a graph you can actually see. You build the plan visually, log reps on
+                    individual transitions, and the app tracks your hit rate over time, so you know what is working
+                    and what needs drilling.</p>
+                <p>The rep data is what makes it a living record rather than a static reference. Logging a win or a
+                    loss on a transition changes the visual weight and color of that line, so the plan redraws
+                    itself around the branches that actually land. A stat sheet ranks every transition by hit rate
+                    with coaching callouts, and a mobile drill view makes the whole thing readable ten minutes
+                    before class.</p>
+                <ul>
+                    <li>Canvas editor with pan and zoom, inline node renaming, and connected child spawning</li>
+                    <li>A branch editor per transition: opponent reaction plus your answer</li>
+                    <li>Rep logging directly on edges, where hit rate drives the weight and color of each line</li>
+                    <li>Stat sheet ranking every transition by hit rate, with coaching callouts</li>
+                    <li>Drill mode, a mobile-optimized read view for reviewing a plan before class</li>
+                    <li>Move library of catalogued techniques you can drag onto the canvas</li>
+                    <li>Export and import as JSON, with auto-save to localStorage</li>
+                </ul>
             </section>
 
             <figure class="post-shot-fig">
                 <img class="post-shot" src="images/gps-plans.jpg" width="1920" height="1200"
                     alt="The plans index: game plans grouped into folders like Guard Play and Comp Prep, with unfiled plans below.">
-                <figcaption>Your Game Plans — folders, plans, drills</figcaption>
+                <figcaption>Your Game Plans: folders, plans, drills</figcaption>
             </figure>
 
             <section class="post-section">
                 <h2>Role &amp; process</h2>
-                <p class="is-placeholder">Placeholder. Explain what you personally owned on this project.</p>
-                <ul class="is-placeholder">
-                    <li>Placeholder responsibility</li>
-                    <li>Placeholder responsibility</li>
-                    <li>Placeholder responsibility</li>
+                <p>Solo, end to end. The data model, the UX, the canvas interactions, and all of the
+                    implementation.</p>
+                <ul>
+                    <li>Put opponent reactions on the edges rather than the nodes, because in a decision tree the
+                        branch condition is the edge, not a separate entity. That one call is what let rep logging
+                        and hit rate live on transitions instead of positions</li>
+                    <li>Built the canvas on React Flow, with Zustand holding graph state so node, edge and rep
+                        updates all go through one store</li>
+                    <li>Kept persistence local: auto-save to localStorage plus JSON export and import, so the tool
+                        works without an account or a backend</li>
+                    <li>Designed drill mode as a separate read-only view rather than a responsive squeeze of the
+                        editor, since the phone use case is reviewing, not editing</li>
                 </ul>
             </section>
 
             <figure class="post-shot-fig">
                 <img class="post-shot" src="images/gps-library.jpg" width="1920" height="1200"
                     alt="The Move Library table of 86 techniques by category, instructor and tags, beside the video detail panel for Triangle Choke.">
-                <figcaption>Move Library — a catalog you can drag onto the canvas</figcaption>
+                <figcaption>Move Library: a catalog you can drag onto the canvas</figcaption>
             </figure>
 
             <section class="post-section">
-                <h2>Outcome</h2>
-                <p class="is-placeholder">Placeholder. What shipped, what changed, and what you learned.
-                    Numbers land well here.</p>
+                <h2>Goals</h2>
+                <p>Still in development, so the measure is what it is being built toward rather than what it has
+                    returned.</p>
+                <ul>
+                    <li>Make game planning tactile and visual instead of notes in a doc</li>
+                    <li>Replace gut-feel drilling with personal, measured rep data</li>
+                    <li>Build a mobile drill view that is genuinely usable ten minutes before class</li>
+                </ul>
             </section>
         </article>
     </main>
