@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
-    <link rel="stylesheet" href="style.css?v=48">
+    <link rel="stylesheet" href="style.css?v=49">
     <script>
         // the loading screen plays once per visit, not on every navigation
         try {
@@ -57,9 +57,8 @@
         <a class="post-back" href="index.html">Back to the shelf</a>
 
         <article class="post" style="--book-color: #1f3a93">
-            <div class="post-hero placeholder-box">
-                <span class="placeholder-label">Hero image</span>
-            </div>
+            <img class="post-shot post-shot--hero" src="images/wb-forecast.jpg" width="1920" height="1200"
+                alt="The WeatherBetter forecast tab: seven days of highs, lows and NWS precipitation probability for Central Park, the mu each contract is priced against.">
 
             <header class="post-head">
                 <h1>Weather Better</h1>
@@ -112,9 +111,11 @@
                     works.</p>
             </section>
 
-            <div class="post-figure placeholder-box">
-                <span class="placeholder-label">Image</span>
-            </div>
+            <figure class="post-shot-fig">
+                <img class="post-shot" src="images/wb-edge-finder.jpg" width="1920" height="1200"
+                    alt="The edge finder comparing model probability against Kalshi YES/NO asks per strike, with numbered callouts explaining each column and the buy rule.">
+                <figcaption>Edge finder — model probability against the market</figcaption>
+            </figure>
 
             <section class="post-section">
                 <h2>Role &amp; process</h2>
@@ -126,9 +127,11 @@
                 </ul>
             </section>
 
-            <div class="post-figure placeholder-box">
-                <span class="placeholder-label">Image</span>
-            </div>
+            <figure class="post-shot-fig">
+                <img class="post-shot" src="images/wb-calibration.jpg" width="1920" height="1200"
+                    alt="A calibration curve of win rate against implied probability with Brier scores, beside fitted sigma and bias per lead day.">
+                <figcaption>Calibration — fitted &sigma; and bias replacing the priors</figcaption>
+            </figure>
 
             <section class="post-section">
                 <h2>Outcome</h2>
