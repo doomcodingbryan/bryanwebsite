@@ -1034,10 +1034,35 @@ a {
     transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+/* Cornell crimson against the warm grey is louder than anything else on the
+   page, so the mark is knocked back into the tile at rest and comes up to
+   full strength on hover */
 .tile img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    filter: saturate(0.8) opacity(0.78);
+    transition: filter 0.25s ease;
+}
+
+.tile:hover img {
+    filter: saturate(1) opacity(1);
+}
+
+/* a logo shipped as a JPEG carries a white box with it. multiplying against
+   the tile drops the white out, since white x anything is that anything */
+.tile--onwhite img {
+    mix-blend-mode: multiply;
+}
+
+/* a photograph wants the whole square, not the inset a logo needs */
+.tile--photo {
+    padding: 0;
+    overflow: hidden;
+}
+
+.tile--photo img {
+    object-fit: cover;
 }
 
 /* the label sits under the tile rather than over the artwork, and only fades
