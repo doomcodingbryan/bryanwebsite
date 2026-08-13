@@ -1,6 +1,6 @@
 /* =========================================================
    Bryan Chae folio
-   Swiss-minimal, fixed sidebar, Helvetica, coral accent
+   Swiss-minimal, fixed sidebar, Helvetica, deep-teal accent
    (after gimaev.com)
    ========================================================= */
 
@@ -9,7 +9,8 @@
     --gray: #888685;
     --line: #dedcd9;
     --wash: #f2f0ed;
-    --accent: #eb5757;
+    /* keep this a 6-digit hex: the experience map appends alpha bytes to it */
+    --accent: #1f6f8b;
     --pad: 64px;
     --aside-w: 356px;
     --sans: 'Helvetica Neue', 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
@@ -555,6 +556,22 @@ a {
 }
 
 .is-placeholder {
+    color: var(--gray);
+}
+
+.post-note {
+    margin-top: 52px;
+    color: var(--gray);
+}
+
+/* the page carries no placeholder scaffolding, so this and .post-note are the
+   only things saying it is unfinished */
+.wip {
+    padding: 5px 11px;
+    border: 1px dashed color-mix(in srgb, var(--gray) 55%, transparent);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     color: var(--gray);
 }
 
@@ -1114,133 +1131,211 @@ a {
 }
 
 /* ---------------- Experience map ---------------- */
-/* canvas layers, bottom to top: base geography, settled roads, shortest
-   paths, live frontier. markers are DOM on top of all four. */
+/* one svg, laid out once in viewBox units: it scales with the box, so there is
+   no redraw on resize and no blur when #cam zooms in on a marker */
 .map-stage {
     position: relative;
-    aspect-ratio: 8 / 5;
+    aspect-ratio: 12 / 7;
     overflow: hidden;
     background: var(--wash);
 }
 
-.map-stage canvas {
-    position: absolute;
-    inset: 0;
+#map {
+    display: block;
     width: 100%;
     height: 100%;
 }
 
-.map-stage #overlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
+#cam {
+    transform-origin: 0 0;
+    transition: transform 620ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.marker {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
+#land {
+    fill: #e8e5e1;
+    stroke: color-mix(in srgb, var(--ink) 50%, transparent);
+    stroke-width: 1.6px;
 }
 
-.marker .dot {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 9px;
-    height: 9px;
-    margin: -4.5px 0 0 -4.5px;
-    border: 2px solid color-mix(in srgb, var(--ink) 35%, transparent);
-    background: #fff;
+#borders {
+    fill: none;
+    stroke: color-mix(in srgb, var(--ink) 16%, transparent);
+    stroke-width: 1px;
 }
 
-.marker.found .dot {
-    border-color: var(--accent);
-    background: var(--accent);
+/* strokes keep their weight while the camera zooms */
+#land,
+#borders,
+.route,
+.ping {
+    vector-effect: non-scaling-stroke;
 }
 
-.marker .ring {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 9px;
-    height: 9px;
-    margin: -4.5px 0 0 -4.5px;
-    border: 2px solid var(--accent);
+.route {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    /* pathLength="1" in the markup means one unit is the whole route */
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: route-draw 1200ms cubic-bezier(0.35, 0, 0.2, 1) forwards;
+}
+
+@keyframes route-draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.pin {
+    cursor: pointer;
     opacity: 0;
+    animation: pin-in 420ms ease-out forwards;
 }
 
-.marker.found .ring {
-    animation: map-ping 900ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+@keyframes pin-in {
+    to {
+        opacity: 1;
+    }
 }
 
-.marker.found .ring.b {
-    animation-delay: 160ms;
+/* counter-scales the marker so it stays the same size at any zoom */
+.pin-in {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 620ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes map-ping {
-    0% {
-        transform: scale(1);
+.pin .dot {
+    fill: var(--accent);
+    animation: pin-blink 2200ms ease-in-out infinite;
+}
+
+.pin .ping {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.4px;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pin-ping 2200ms ease-out infinite;
+}
+
+/* invisible tap target. the svg scales with its box, so the target is padded
+   out with a non-scaling stroke: that stays ~26 CSS px wide at every screen
+   size and zoom level, where a plain radius would shrink with the map */
+.pin .hit {
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 26px;
+    vector-effect: non-scaling-stroke;
+    pointer-events: all;
+}
+
+@keyframes pin-blink {
+
+    0%,
+    100% {
         opacity: 1;
     }
 
+    55% {
+        opacity: 0.35;
+    }
+}
+
+@keyframes pin-ping {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.7;
+    }
+
+    70%,
     100% {
-        transform: scale(7.5);
+        transform: scale(3.4);
         opacity: 0;
     }
 }
 
-.marker .lab {
-    position: absolute;
-    white-space: nowrap;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: color-mix(in srgb, var(--ink) 45%, transparent);
+/* the open marker holds still so it reads as the selected one */
+.pin.on .dot,
+.pin.on .ping {
+    animation: none;
 }
 
-.marker.found .lab {
+.pin.on .ping {
+    opacity: 1;
+    stroke-width: 2px;
+}
+
+.pin:focus-visible {
+    outline: none;
+}
+
+.pin:focus-visible .dot {
+    stroke: var(--ink);
+    stroke-width: 2px;
+}
+
+.src rect {
+    fill: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.map-wrap {
+    position: relative;
+}
+
+.map-pop {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: 360px;
+    padding: 18px 44px 18px 18px;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: 0 8px 28px rgba(37, 36, 34, 0.10);
+    animation: pop-in 240ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.map-pop[hidden] {
+    display: none;
+}
+
+@keyframes pop-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}
+
+.pop-x {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--gray);
+    cursor: pointer;
+}
+
+.pop-x:hover {
     color: var(--ink);
 }
 
-.marker .lab .mi {
-    display: block;
-    letter-spacing: 0;
-    text-transform: none;
-    font-weight: 400;
-    font-variant-numeric: tabular-nums;
-    color: var(--accent);
-    opacity: 0;
-    transition: opacity 300ms 200ms;
-}
-
-.marker.found .lab .mi {
-    opacity: 1;
-}
-
-.origin-lab {
-    position: absolute;
-    transform: translate(-50%, 14px);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--ink) 55%, transparent);
-    white-space: nowrap;
-}
-
-.map-status {
-    position: absolute;
-    left: 16px;
-    bottom: 14px;
+.pop-mi {
+    margin-top: 12px;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: color-mix(in srgb, var(--ink) 55%, transparent);
-}
-
-.map-status b {
+    font-variant-numeric: tabular-nums;
     color: var(--accent);
-    font-weight: 500;
 }
 
 .map-hint {
@@ -1265,24 +1360,93 @@ a {
     border-top: 1px solid var(--line);
 }
 
-.map-card .role {
+/* the popup is built from a card's own markup, so both share this type */
+.map-card .role,
+.map-pop .role {
     font-size: 20px;
     line-height: 28px;
 }
 
-.map-card .meta {
+.map-card .meta,
+.map-pop .meta {
     font-size: 15px;
     line-height: 22px;
     color: var(--gray);
     margin-top: 2px;
 }
 
-.map-card .role + .meta + .role {
+/* a second role in the same card, whether or not the first one has a desc */
+:is(.map-card, .map-pop) :is(.meta, .desc) + .role {
     margin-top: 14px;
 }
 
+.map-card .desc,
+.map-pop .desc {
+    font-size: 15px;
+    line-height: 23px;
+    margin-top: 10px;
+}
+
+.map-pop .role {
+    font-size: 17px;
+    line-height: 24px;
+}
+
+@media (max-width: 600px) {
+
+    /* the map is too small here to give up half of itself to the popup.
+       relative, not static, so the close button still anchors to the popup */
+    .map-pop {
+        position: relative;
+        inset: auto;
+        margin-top: 12px;
+        max-width: none;
+        padding: 14px 40px 14px 14px;
+    }
+
+    .map-pop .role {
+        font-size: 15px;
+        line-height: 21px;
+    }
+
+    .map-pop .meta {
+        font-size: 13px;
+        line-height: 19px;
+    }
+
+    .map-pop .desc {
+        font-size: 13px;
+        line-height: 20px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .marker.found .ring {
+
+    #cam,
+    .pin-in {
+        transition: none;
+    }
+
+    .route {
+        animation: none;
+        stroke-dashoffset: 0;
+    }
+
+    .pin {
+        animation: none;
+        opacity: 1;
+    }
+
+    .pin .dot {
+        animation: none;
+    }
+
+    .pin .ping {
+        animation: none;
+        opacity: 0.35;
+    }
+
+    .map-pop {
         animation: none;
     }
 }
