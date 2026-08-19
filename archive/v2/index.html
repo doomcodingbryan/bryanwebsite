@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bryan Chae · Product · Ventures · Software</title>
+    <meta name="description"
+        content="Bryan Chae. Cornell Information Science '27. Product management, entrepreneurship, and design. Building things that actually work.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Bryan Chae">
+    <meta property="og:description"
+        content="Creative with a passion for product management, entrepreneurship, and design.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bryanchae.com">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../../fonts/Comico/WEB/css/comico.css">
+    <link rel="stylesheet" href="../../fonts/Zodiak/WEB/css/zodiak.css">
+    <link rel="stylesheet" href="../../fonts/Rowan/WEB/css/rowan.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="style.css?v=8">
+
+    <!-- Three.js as ES module via importmap -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
+</head>
+
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor" aria-hidden="true">
+        <div class="cursor-dot"></div>
+        <div class="cursor-ring"></div>
+    </div>
+
+    <!-- Loader (boot screen) -->
+    <div class="loader" id="loader">
+        <div class="loader-scanlines" aria-hidden="true"></div>
+        <div class="loader-inner">
+            <div class="loader-top">
+                <span class="loader-tag"><i class="blink-dot"></i> PLAYER_01</span>
+                <span class="loader-sys">PORTFOLIO_OS v2.0</span>
+            </div>
+            <h1 class="loader-title"><span class="b">[</span> BRYAN CHAE <span class="b">]</span></h1>
+            <div class="loader-log" id="loaderLog" aria-hidden="true"></div>
+            <div class="loader-barwrap">
+                <div class="loader-blocks" id="loaderBlocks" aria-hidden="true"></div>
+                <span class="loader-pct" id="loaderPct">00%</span>
+            </div>
+            <div class="loader-hint" id="loaderHint">INITIALIZING<span class="caret">_</span></div>
+        </div>
+    </div>
+
+    <!-- Fixed WebGL canvas (the orange blob lives here) -->
+    <canvas id="webgl" class="webgl"></canvas>
+
+    <!-- Scroll progress rail -->
+    <div class="scroll-rail" aria-hidden="true"><span id="scrollRail"></span></div>
+
+    <!-- Header / Nav -->
+    <header class="site-header">
+        <a href="#hero" class="name" data-cursor="hover"><span class="bracket">[</span>Bryan<span
+                class="bracket">]</span> Chae</a>
+        <nav class="nav-tabs" aria-label="Primary">
+            <div class="nav-tabs-box">
+                <a href="#about" class="nav-link" data-cursor="hover">About</a>
+                <a href="#experience" class="nav-link" data-cursor="hover">Work</a>
+                <a href="#projects" class="nav-link" data-cursor="hover">Projects</a>
+                <a href="#connect" class="nav-link" data-cursor="hover">Connect</a>
+            </div>
+        </nav>
+        <a href="../../links/Bryan_Chae_Resume.pdf" target="_blank" rel="noopener" class="resume-btn magnetic"
+            data-cursor="hover">Resume</a>
+    </header>
+
+    <main>
+        <!-- ===================== HERO ===================== -->
+        <section class="hero" id="hero">
+            <div class="hero-inner">
+                <h1 class="hero-title">
+                    <span class="line"><span class="word">Creative</span> <span class="word">with</span> <span
+                            class="word">a</span></span>
+                    <span class="line"><span class="word accent">[passion]</span> <span class="word">for</span></span>
+                    <span class="line"><span class="word">product,</span> <span class="word">ventures</span></span>
+                    <span class="line"><span class="word">&amp;</span> <span class="word">software.</span></span>
+                </h1>
+                <p class="hero-subtitle reveal-up">A senior building at the intersection of technology and real user
+                    problems, based between <span class="nowrap">Ithaca</span> and <span class="nowrap">San
+                        Jose</span>.</p>
+                <div class="hero-actions reveal-up">
+                    <a href="#connect" class="btn btn-primary magnetic" data-cursor="hover">Let's connect</a>
+                    <a href="https://www.linkedin.com/in/bryan-chae-850597245/" target="_blank" rel="noopener"
+                        class="btn btn-ghost magnetic" data-cursor="hover">
+                        <img src="../../images/linkedin.png" alt="" class="btn-icon"> LinkedIn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== ABOUT ===================== -->
+        <section class="section about" id="about">
+            <div class="section-head">
+                <span class="section-index">01</span>
+                <h2 class="section-title reveal-up">About <span class="accent">[ me ]</span></h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p class="about-lead reveal-up">Hi, I'm Bryan, a product-minded builder who likes shipping things that
+                        actually work. My work spans product management, venture, and software, built at early-stage
+                        startups, investment firms, and Cornell's research labs. I care about finding the intersection
+                        between technology and real user problems, then turning that into something people rely on.</p>
+                </div>
+                <figure class="about-photo reveal-up">
+                    <img src="../../images/headshot.jpg" alt="Bryan Chae" loading="lazy">
+                    <figcaption>Bryan Chae</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- ===================== EXPERIENCE ===================== -->
+        <section class="section experience" id="experience">
+            <div class="section-head">
+                <span class="section-index">02</span>
+                <h2 class="section-title reveal-up">Where I've <span class="accent">[ built ]</span></h2>
+            </div>
+            <ol class="timeline">
+                <li class="xp reveal-up">
+                    <div class="xp-meta">
+                        <span class="xp-level">[ LV.06 ]</span>
+                        <span class="xp-date">Jun 2026 - Aug 2026</span>
+                        <span class="xp-loc">Queens, NY</span>
+                    </div>
+                    <div class="xp-body">
+                        <h3>HR Tech Intern <span class="xp-co">AWISCO</span></h3>
+                        <p>Built an automated onboarding workflow that cut new-hire setup time by 40%, adopted across 3
+                            departments. Shipped an internal HR dashboard used daily by 20+ managers, and partnered with
+                            engineering to scope a 6-feature roadmap from employee NPS feedback.</p>
+                    </div>
+                </li>
+                <li class="xp reveal-up">
+                    <div class="xp-meta">
+                        <span class="xp-level">[ LV.05 ]</span>
+                        <span class="xp-date">Dec 2025 - May 2026</span>
+                        <span class="xp-loc">Ithaca, NY</span>
+                    </div>
+                    <div class="xp-body">
+                        <h3>Product Manager Intern <span class="xp-co">SubmissionSensAI</span></h3>
+                        <p>Owned the end-to-end launch of a semantic search feature that reduced user drop-off by 22% in
+                            an A/B test across 1,200 users. Translated athlete and coach feedback into requirements and
+                            drove execution from concept to launch with engineers and designers.</p>
+                    </div>
+                </li>
+                <li class="xp reveal-up">
+                    <div class="xp-meta">
+                        <span class="xp-level">[ LV.04 ]</span>
+                        <span class="xp-date">Jun 2025 - Aug 2025</span>
+                        <span class="xp-loc">Santa Clara, CA</span>
+                    </div>
+                    <div class="xp-body">
+                        <h3>Business Intern <span class="xp-co">LX Semicon</span></h3>
+                        <p>Researched and profiled global prospects for copper conductor sheets, mapping decision
+                            makers and aligning technical applications (busbars, PCS reactors, transformers) to customer
+                            ESS needs. Coordinated across supply chain, marketing, and technical teams on inquiries and
+                            delivery timelines.</p>
+                    </div>
+                </li>
+                <li class="xp reveal-up">
+                    <div class="xp-meta">
+                        <span class="xp-level">[ LV.03 ]</span>
+                        <span class="xp-date">May 2025 - Nov 2025</span>
+                        <span class="xp-loc">Menlo Park, CA</span>
+                    </div>
+                    <div class="xp-body">
+                        <h3>Venture Scout <span class="xp-co">GoAhead &amp; LvlUp Ventures</span></h3>
+                        <p>Ran market research across AI, hardware, and B2B/B2C SaaS. Sourced 30+ startups outside the
+                            firms' usual footprint and pitched the investment thesis to founders at demo days to grow
+                            monthly deal flow.</p>
+                    </div>
+                </li>
+                <li class="xp reveal-up">
+                    <div class="xp-meta">
+                        <span class="xp-level">[ LV.02 ]</span>
+                        <span class="xp-date">Feb 2025 - Jun 2025</span>
+                        <span class="xp-loc">Los Angeles, CA</span>
+                    </div>
+                    <div class="xp-body">
+                        <h3>Private Equity Intern <span class="xp-co">Willowbrook Capital</span></h3>
+                        <p>Conducted B2B software market research analyzing EBITDA and ARR growth, and developed
+                            investment theses through competitive positioning. Sourced 300+ potential acquisition targets
+                            while maintaining relationships through outreach.</p>
+                    </div>
+                </li>
+                <li class="xp reveal-up">
+                    <div class="xp-meta">
+                        <span class="xp-level">[ LV.01 ]</span>
+                        <span class="xp-date">Jun 2022 - Jan 2024</span>
+                        <span class="xp-loc">Ithaca, NY</span>
+                    </div>
+                    <div class="xp-body">
+                        <h3>Coding Research Intern <span class="xp-co">Messer Lab · Cornell</span></h3>
+                        <p>Co-authored a published paper and supported a mentor presenting at the International Congress
+                            of Genetics in Australia. Built a new population-model simulation method cutting compute time
+                            by 90%, and implemented resource-explicit spatial models for more realistic simulations.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- ===================== PROJECTS ===================== -->
+        <section class="section projects" id="projects">
+            <div class="section-head">
+                <span class="section-index">03</span>
+                <h2 class="section-title reveal-up">Things I've <span class="accent">[ made ]</span></h2>
+            </div>
+            <div class="projects-grid">
+                <a class="project-card reveal-up" href="https://doomcodingbryan.github.io/WeatherBetter/#edge"
+                    target="_blank" rel="noopener" data-cursor="view">
+                    <div class="project-top">
+                        <span class="project-tag">Trading · Data Pipeline</span>
+                        <span class="project-arrow">↗</span>
+                    </div>
+                    <h3>Weather Better</h3>
+                    <p class="project-tagline">$400 in verified profit within 3 weeks</p>
+                    <p class="project-desc">Prices prediction-market contracts against live weather data using the NWS
+                        forecast API. A 15-minute cron job fetches, paginates, and validates Kalshi market snapshots,
+                        then deploys trading signals automatically.</p>
+                </a>
+                <a class="project-card reveal-up" href="https://are-we-there-yet.4300showcase.infosci.cornell.edu"
+                    target="_blank" rel="noopener" data-cursor="view">
+                    <div class="project-top">
+                        <span class="project-tag">NLP · Recommender</span>
+                        <span class="project-arrow">↗</span>
+                    </div>
+                    <h3>Are We There Yet?</h3>
+                    <p class="project-tagline">Immigration recommendation system</p>
+                    <p class="project-desc">Matches users to countries from structured profile data and free-text "vibe"
+                        queries using TF-IDF and cosine similarity. Country profiles were built by scraping Reddit
+                        immigration communities to capture qualitative dimensions.</p>
+                </a>
+                <div class="project-card is-static reveal-up">
+                    <div class="project-top">
+                        <span class="project-tag">Data Analysis</span>
+                    </div>
+                    <h3>University Housing Pricing in the US</h3>
+                    <p class="project-tagline">Why is it so expensive?</p>
+                    <p class="project-desc">Analyzed rent indexes across major college towns to understand the
+                        discrepancies in month-to-month rent pricing for students.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== SKILLS / MARQUEE ===================== -->
+        <section class="section skills" id="skills">
+            <div class="section-head">
+                <span class="section-index">04</span>
+                <h2 class="section-title reveal-up">Tools I <span class="accent">[ use ]</span></h2>
+            </div>
+            <div class="skill-tags reveal-up">
+                <span>Product Management</span><span>Entrepreneurship</span><span>UX / UI Design</span><span>User
+                    Research</span><span>Data Analysis</span><span>Python</span><span>SQL</span><span>R</span><span>Figma</span><span>Korean
+                    (Native)</span>
+            </div>
+        </section>
+
+        <!-- ===================== CONNECT ===================== -->
+        <section class="section connect" id="connect">
+            <div class="section-head">
+                <span class="section-index">05</span>
+                <h2 class="section-title reveal-up">Let's <span class="accent">[ connect ]</span></h2>
+            </div>
+            <p class="connect-lead reveal-up">The best way to stay in touch is on LinkedIn, or email me if you're old
+                fashioned.</p>
+            <div class="connect-links">
+                <a href="https://www.linkedin.com/in/bryan-chae-850597245/" target="_blank" rel="noopener"
+                    class="connect-link reveal-up magnetic" data-cursor="hover">
+                    <span class="connect-link-label">LinkedIn</span>
+                    <span class="connect-link-val">/in/bryan-chae</span>
+                    <span class="connect-arrow">↗</span>
+                </a>
+                <a href="mailto:byc27@cornell.edu" class="connect-link reveal-up magnetic" data-cursor="hover">
+                    <span class="connect-link-label">Email</span>
+                    <span class="connect-link-val">byc27@cornell.edu</span>
+                    <span class="connect-arrow">↗</span>
+                </a>
+                <a href="../../links/Bryan_Chae_Resume.pdf" target="_blank" rel="noopener"
+                    class="connect-link reveal-up magnetic" data-cursor="hover">
+                    <span class="connect-link-label">Resume</span>
+                    <span class="connect-link-val">Download PDF</span>
+                    <span class="connect-arrow">↓</span>
+                </a>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <span>© Bryan Chae 2026</span>
+            <span class="footer-mid">Designed &amp; built in Ithaca + San Jose</span>
+            <button class="back-to-top magnetic" id="backToTop" data-cursor="hover" aria-label="Back to top">↑
+                Top</button>
+        </footer>
+    </main>
+
+    <!-- GSAP + Lenis (smooth scroll) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+    <!-- 3D scene (module) + interactions -->
+    <script type="module" src="three-scene.js?v=8"></script>
+    <script src="script.js?v=8"></script>
+</body>
+
+</html>

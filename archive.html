@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.Chae Portfolio · Archive</title>
+    <meta name="description" content="Previous versions of bryanchae.com, kept live and browsable.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+    <link rel="stylesheet" href="style.css?v=63">
+    <script>
+        // the loading screen plays once per visit, not on every navigation
+        try {
+            if (sessionStorage.seenLoader) document.documentElement.classList.add('no-loader');
+            sessionStorage.seenLoader = 1;
+        } catch (e) { /* storage blocked: just show it */ }
+    </script>
+</head>
+
+<body>
+    <div class="loader" id="loader" aria-hidden="true">
+        <div class="load-box">
+            <div class="load-barwrap">
+                <div class="load-bubble"></div>
+                <div class="load-track">
+                    <div class="load-fill" id="loadFill"></div>
+                </div>
+            </div>
+            <div class="load-title">Loading</div>
+            <div class="load-sub">Please Wait...</div>
+        </div>
+    </div>
+    <div class="aside">
+        <div>
+            <a href="index.html" class="brand">
+                <h1>B.Chae Portfolio</h1>
+            </a>
+            <div class="aside-sub">
+                <h2>What I've been up to</h2>
+                <p>&copy; 2026</p>
+            </div>
+        </div>
+        <nav class="menu" aria-label="Primary">
+            <a href="index.html" class="pill pill-folder">Works</a>
+            <a href="about.html" class="pill active">About</a>
+            <a href="connect.html" class="pill">Contact</a>
+        </nav>
+    </div>
+
+    <main class="content">
+        <a class="post-back" href="about.html">Back to About</a>
+
+        <article class="post">
+            <header class="post-head">
+                <h1>Archive</h1>
+            </header>
+
+            <section class="post-section">
+                <h4>Description</h4>
+                <p>Every version this site has been. The old ones are still here, still clickable, running
+                    the exact HTML, CSS and JavaScript they shipped with.</p>
+            </section>
+
+            <section class="post-section">
+                <h2>v3 &middot; The shelf</h2>
+                <p>August 2026 to now. Projects as books on a shelf: click a spine, it turns over, open it to
+                    read the case study. The one you are on.</p>
+                <p><a class="post-link" href="index.html">Open v3</a></p>
+            </section>
+
+            <section class="post-section">
+                <h2>v2 &middot; The 3D one</h2>
+                <p>June to August 2026. A single scrolling page built on Three.js, GSAP and Lenis: a
+                    noise-displaced amber blob with a particle halo that followed the cursor and docked to
+                    the corner as you scrolled, behind a video-game boot screen that made you press start.</p>
+                <p><a class="post-link" href="archive/v2/index.html">Open v2</a></p>
+            </section>
+
+            <section class="post-section">
+                <h2>v1 &middot; The first one</h2>
+                <p>February to June 2026. The original: a plain multi-page static site on a dotted grid, set in
+                    Rowan and Zodiak, with the work, about and contact pages kept separate.</p>
+                <p><a class="post-link" href="archive/v1/index.html">Open v1</a></p>
+            </section>
+        </article>
+    </main>
+    <script>
+        // reveal once the page is loaded AND the bar has finished filling
+        const fillMs = parseFloat(
+            getComputedStyle(loader).getPropertyValue('--fill-dur')) * 1000;
+        Promise.all([
+            document.readyState === 'complete'
+                ? Promise.resolve()
+                : new Promise(r => addEventListener('load', r)),
+            new Promise(r => setTimeout(r, fillMs))
+        ]).then(() => loader.classList.add('done'));
+    </script>
+</body>
+
+</html>
